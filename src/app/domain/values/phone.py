@@ -1,6 +1,37 @@
+import re
 from dataclasses import dataclass, field
+from re import Pattern
+from typing import ClassVar
+
+from app.domain.exceptions import InvalidPhoneError
+from app.domain.values.base import BaseValueObject
 
 
-@dataclass
-class Phone:
-    pass
+@dataclass(frozen=True, kw_only=True, slots=True, repr=False)
+class Phone(BaseValueObject):
+    MIN_LENGTH: ClassVar[int] = 8
+    MAX_LENGTH: ClassVar[int] = 30
+    PATTERN: ClassVar[Pattern[str]] = re.compile(r"^\+?[1-9]\d{1,14}$")
+    value: str
+
+    def __post_init__(self):
+        super().__post_init__()
+
+    def _validate(self, *, value: str):
+        if not isinstance(value, str):
+            raise ValueError(
+                f"Phone number must be a string, got {type(self.value).__name__}",
+            )
+        if not self._validate_length(value=value):
+            raise InvalidPhoneError(
+                f"Phone length between {self.MIN_LENGTH} to {self.MAX_LENGTH} allowed.",
+            )
+
+    def _validate_length(self, *, value: str) -> bool:
+        if len(value) in range(self.MIN_LENGTH, self.MAX_LENGTH + 1):
+            return True
+        return False
+
+    def _validate_pattern(self, *, value: str):
+        if not self.PATTERN.match(value):
+            raise InvalidPhoneError(f"Invalid phone number format. Got: '{value}'")

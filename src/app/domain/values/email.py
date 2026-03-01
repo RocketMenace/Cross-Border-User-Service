@@ -1,7 +1,7 @@
 import re
 from dataclasses import dataclass
 from re import Pattern
-from typing import ClassVar, Final
+from typing import ClassVar
 
 from app.domain.exceptions import InvalidEmailError
 from app.domain.values.base import BaseValueObject
@@ -45,11 +45,11 @@ class Email(BaseValueObject):
     def _validate_pattern(self, *, value: str) -> None:
         if not self.LOCAL_PART_PATTERN.match(value):
             raise InvalidEmailError(
-                f"Local part must contain only letters and numbers (a-z, A-Z, 0-9). "
-                f"Got: '{value}'",
+                f"""Local part must contain only
+                letters and numbers (a-z, A-Z, 0-9). Got: '{value}'""",
             )
         if not self.DOMAIN_PART_PATTER.match(value):
-            raise ValueError(
-                f"Domain should be like 'example.com' or 'sub.example.co.uk'. "
-                f"Got: '{value}'",
+            raise InvalidEmailError(
+                f"""Domain should be like
+                'example.com' or 'sub.example.co.uk'. Got: '{value}'""",
             )
