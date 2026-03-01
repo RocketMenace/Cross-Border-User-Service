@@ -8,6 +8,5 @@ class BaseValueObject:
     def __post_init__(self):
         self._validate(value=self.value)
 
-    @staticmethod
-    def _validate(*, value: str):
+    def _validate(self, *, value: str):
         raise NotImplementedError("Child object should implement this method")
