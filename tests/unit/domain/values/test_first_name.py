@@ -35,3 +35,9 @@ async def test_first_name_invalid_min_length():
 async def test_first_name_invalid_max_length():
     with pytest.raises(InvalidFirstNameError):
         FirstName(value="dsjfhnsjdfnjsdnfjsdnfdfsdfsdfsdfsdfsddfs")
+
+
+@pytest.mark.asyncio
+async def test_first_name_invalid_value():
+    with pytest.raises(InvalidFirstNameError):
+        FirstName(value="23Mark")
