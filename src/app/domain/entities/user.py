@@ -6,6 +6,7 @@ from app.domain.values import Email, FirstName, LastName, MiddleName, Phone, Use
 class UserEntity:
     def __init__(
         self,
+        *,
         user_id: UserID,
         email: Email,
         phone: Phone,

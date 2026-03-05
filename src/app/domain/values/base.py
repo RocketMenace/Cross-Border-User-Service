@@ -10,3 +10,6 @@ class BaseValueObject:
 
     def _validate(self, *, value: str):
         raise NotImplementedError("Child object should implement this method")
+
+    def __repr__(self):
+        return f"{self.value}"
