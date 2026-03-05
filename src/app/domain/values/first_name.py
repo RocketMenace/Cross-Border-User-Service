@@ -29,6 +29,7 @@ class FirstName(BaseValueObject):
                 f"""First name length between
 {self.MIN_LENGTH} to {self.MAX_LENGTH} allowed.""",
             )
+        self._validate_pattern(value=value)
 
     def _validate_length(self, *, value: str) -> bool:
         if len(value) in range(self.MIN_LENGTH, self.MAX_LENGTH + 1):
