@@ -43,13 +43,14 @@ class Email(BaseValueObject):
         return False
 
     def _validate_pattern(self, *, value: str) -> None:
-        if not self.LOCAL_PART_PATTERN.match(value):
+        local_part, domain_part = value.split("@")
+        if not self.LOCAL_PART_PATTERN.match(local_part):
             raise InvalidEmailError(
                 f"""Local part must contain only
-                letters and numbers (a-z, A-Z, 0-9). Got: '{value}'""",
+                letters and numbers (a-z, A-Z, 0-9). Got: '{local_part}'""",
             )
-        if not self.DOMAIN_PART_PATTER.match(value):
+        if not self.DOMAIN_PART_PATTER.match(domain_part):
             raise InvalidEmailError(
                 f"""Domain should be like
-                'example.com' or 'sub.example.co.uk'. Got: '{value}'""",
+                'example.com' or 'sub.example.co.uk'. Got: '{domain_part}'""",
             )
