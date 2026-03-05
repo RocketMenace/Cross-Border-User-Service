@@ -9,7 +9,7 @@ from app.domain.values.base import BaseValueObject
 
 @dataclass(frozen=True, kw_only=True, slots=True, repr=False)
 class FirstName(BaseValueObject):
-    MIN_LENGTH: ClassVar[int] = 5
+    MIN_LENGTH: ClassVar[int] = 2
     MAX_LENGTH: ClassVar[int] = 30
     PATTERN: ClassVar[Pattern[str]] = re.compile(
         r"^(?!.*[\s\-']{2})[A-Za-z]+(?:[\s\-'][A-Za-z]+)*$",
@@ -36,6 +36,8 @@ class FirstName(BaseValueObject):
         return False
 
     def _validate_pattern(self, *, value: str):
+        if not value.istitle():
+            raise InvalidFirstNameError(f"First name must start with capital letter. Got: {value}")
         if not self.PATTERN.match(value):
             raise InvalidFirstNameError(
                 f"""First name must contain
