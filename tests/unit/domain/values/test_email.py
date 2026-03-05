@@ -16,10 +16,7 @@ async def test_email_created_successful():
 async def test_email_invalid_local_part():
     with pytest.raises(InvalidEmailError) as e:
         Email(value="test-123@example.com")
-        assert (
-            "Local part must contain only letters and numbers (a-z, A-Z, 0-9)."
-            in str(e)
-        )
+        assert "Local part must contain only letters and numbers (a-z, A-Z, 0-9)." in str(e)
 
 
 @pytest.mark.asyncio
