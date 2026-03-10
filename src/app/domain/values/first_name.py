@@ -19,7 +19,7 @@ class FirstName(BaseValueObject):
     def __post_init__(self):
         super().__post_init__()
 
-    def _validate(self, *, value: str):
+    def _validate(self, *, value: str) -> None:
         if not isinstance(value, str):
             raise ValueError(
                 f"First name must be a string, got {type(self.value).__name__}",
@@ -36,7 +36,7 @@ class FirstName(BaseValueObject):
             return True
         return False
 
-    def _validate_pattern(self, *, value: str):
+    def _validate_pattern(self, *, value: str) -> None:
         if not value.istitle():
             raise InvalidFirstNameError(f"First name must start with capital letter. Got: {value}")
         if not self.PATTERN.match(value):

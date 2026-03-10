@@ -3,7 +3,7 @@ from dataclasses import dataclass, field
 
 @dataclass(frozen=True, kw_only=True, slots=True, repr=False)
 class BaseValueObject:
-    value: str
+    value: str | bytes
 
     def __post_init__(self):
         self._validate(value=self.value)
