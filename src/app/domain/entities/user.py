@@ -1,6 +1,6 @@
 from typing import Any
 
-from app.domain.values import Email, FirstName, LastName, MiddleName, Phone, UserID
+from app.domain.values import Email, FirstName, HashPassword, LastName, MiddleName, Phone, UserID
 
 
 class UserEntity:
@@ -13,6 +13,7 @@ class UserEntity:
         first_name: FirstName,
         last_name: LastName,
         middle_name: MiddleName,
+        hashed_password: HashPassword,
     ):
         self.user_id = user_id
         self.email = email
@@ -20,6 +21,8 @@ class UserEntity:
         self.first_name = first_name
         self.last_name = last_name
         self.middle_name = middle_name
+        self.hashed_password = hashed_password
+        self.is_active: bool | None = None
 
     def __setattr__(self, key: str, value: Any) -> None:
         if key == "user_id" and getattr(self, "user_id", None) is not None:
