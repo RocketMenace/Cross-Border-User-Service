@@ -1,7 +1,7 @@
 import pytest
 
 from app.domain.entities.user import UserEntity
-from app.domain.values import Email, FirstName, LastName, MiddleName, Phone, UserID
+from app.domain.values import Email, FirstName, HashPassword, LastName, MiddleName, Phone, UserID
 
 
 @pytest.mark.asyncio
@@ -12,6 +12,7 @@ async def test_user_created_successfully():
     last_name = LastName(value="Josh")
     phone = Phone(value="+789034586523")
     email = Email(value="bobbrown@example.com")
+    hashed_password = HashPassword(value=b"qwerty")
     user = UserEntity(
         user_id=user_id,
         first_name=first_name,
@@ -19,9 +20,14 @@ async def test_user_created_successfully():
         middle_name=middle_name,
         phone=phone,
         email=email,
+        hashed_password=hashed_password,
     )
 
     assert user.first_name.value == "Bob"
+    assert user.middle_name.value == "Brown"
+    assert user.last_name.value == "Josh"
+    assert user.phone.value == "+789034586523"
+    assert user.email.value == "bobbrown@example.com"
 
 
 @pytest.mark.asyncio
